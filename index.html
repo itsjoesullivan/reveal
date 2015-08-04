@@ -83,6 +83,7 @@
 <div class="addthis_jumbo_share"></div>
 <!-- Go to www.addthis.com/dashboard to customize your tools -->
 <div class="addthis_sharing_toolbox"></div>
+<img class="counter" src="http://counter7.bestfreecounterstat.com/private/freecounterstat.php?c=ecabcfbf9d3c87755a1be78b87ae9f6e" border="0" title="hit counter" alt="hit counter">
 <script>
 if (/joesu/i.test(document.location.href)) {
   document.location.href = document.location.href.replace('joesul.li/reveal', 'the-reveal.biz');
@@ -107,7 +108,7 @@ function rot13(s)
   var hash = document.location.search;
   if (/input/.test(hash)) {
     var src = decodeURIComponent(rot13(hash.replace(/.*=/,'')));
-    $("p, form").addClass('hide');
+    $("p, form, .counter").addClass('hide');
     $("#form input[type=text]").val(src);
     $("#form").submit();
   }
