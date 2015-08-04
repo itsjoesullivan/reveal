@@ -65,6 +65,10 @@
     .container {
       position: relative;
     }
+    .addthis_sharing_toolbox {
+      height: 0px;
+      overflow: hidden;
+    }
     </style>
 </head>
 <body>
@@ -80,7 +84,6 @@
 </div>
 <p>3. Share (<a class="url"></a>)</p>
 <!-- Go to www.addthis.com/dashboard to customize your tools -->
-<div class="addthis_jumbo_share"></div>
 <!-- Go to www.addthis.com/dashboard to customize your tools -->
 <div class="addthis_sharing_toolbox"></div>
 <img class="counter" src="http://counter7.bestfreecounterstat.com/private/freecounterstat.php?c=ecabcfbf9d3c87755a1be78b87ae9f6e" border="0" title="hit counter" alt="hit counter">
@@ -136,7 +139,7 @@ function rot13(s)
     //video.currentTime = 0;
     setTimeout(function() {
       video.play();
-    }, 1000);
+    }, 2000);
     $(video).on('timeupdate', function() {
       if (video.currentTime > 0.75) {
         $(video).off('timeupdate');
@@ -157,6 +160,7 @@ function rot13(s)
       if (document.location.href !== url) {
         //document.location.href = url
       }
+      $(".addthis_sharing_toolbox").css({ height: "auto" });
       addthis.update('share', 'url', url);
       }, 1000);
 
