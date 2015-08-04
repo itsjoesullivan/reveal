@@ -119,7 +119,7 @@ function rot13(s)
       $content.attr('src', src);
     } else {
       $content = $("<div>");
-      $content.html(src);
+      $content.text(src);
       if (src.length <= 2) {
         $content.addClass('xl-text');
       } else if (src.length < 8) {
