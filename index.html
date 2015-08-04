@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+  <meta charset="utf-8">
+  <title>JS Bin</title>
+  <style>
+  video {
+    width: 540px;
+    height: 304px;
+  }
+    @-webkit-keyframes reveal {
+      from {
+        -webkit-transform: rotate(-4deg) rotateX(90deg);
+      }
+      to {
+        -webkit-transform: rotate(-8deg) rotateX(0deg);
+      }
+    }
+    @keyframes reveal
+    {
+      from {
+        transform: rotate(-4deg) rotateX(90deg);
+      }
+      to {
+        transform: rotate(-8deg) rotateX(0deg);
+      }
+    }
+    .subject {
+      
+      position: absolute;
+      left: 220px;
+      top: 170px;
+      width: 60px;
+      height: 80px;
+      word-wrap: break-word;
+      animation-name: reveal;
+      animation-timing-function: linear;
+      animation-iteration-count: 1;
+      animation-duration: 1.6s;
+      transform: rotate(-8deg) rotateX(0deg);
+      -webkit-animation-name: reveal;
+      -webkit-animation-timing-function: linear;
+      -webkit-animation-iteration-count: 1;
+      -webkit-animation-duration: 1.6s;
+      -webkit-transform: rotate(-8deg) rotateX(0deg);
+      color: #fff;
+      text-align: center;
+      font-size: 1em;
+      overflow: hidden;
+    }
+    .big-text {
+      font-size: 2em;
+    }
+    .xl-text {
+      font-size: 3em;
+    }
+    .back {
+      background-color: #111;
+
+    }
+    .hide {
+      display: none;
+    }
+    .container {
+      position: relative;
+    }
+    </style>
+</head>
+<body>
+<p>1. Enter text or an image url</p>
+<form id='form'>
+  <input type="text">
+  <input type="submit">
+</form>
+<p>2. Enjoy</p>
+<div class="container">
+    <video src="https://pbs.twimg.com/tweet_video/CLgp6wDWsAAZHx7.mp4"></video>
+<div id="animation"></div>
+</div>
+<p>3. Share (<a class="url"></a>)</p>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_jumbo_share"></div>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_sharing_toolbox"></div>
+<script>
+// Courtesy Zibri
+// http://jsfiddle.net/rufwork/NBUn9/
+function rot13(s)
+{
+  return s;
+  return (s ? s : this).split('').map(function(_)
+      {
+      if (!_.match(/[A-za-z]/)) return _;
+      c = Math.floor(_.charCodeAt(0) / 97);
+      k = (_.toLowerCase().charCodeAt(0) - 83) % 26 || 26;
+      return String.fromCharCode(k + ((c == 0) ? 64 : 96));
+      }).join('');
+}
+  $("#form").on('submit', function(e) {
+    e.preventDefault();
+    render($('input').val());
+  });
+  var hash = document.location.search;
+  if (/input/.test(hash)) {
+    var src = decodeURIComponent(rot13(hash.replace(/.*=/,'')));
+    $("p, form").addClass('hide');
+    $("#form input[type=text]").val(src);
+    $("#form").submit();
+  }
+  var video;
+  function render(src) {
+    $("#animation").empty();
+    if (/http/.test(src)) {
+      $content = $("<img>");
+      $content.attr('src', src);
+    } else {
+      $content = $("<div>");
+      $content.html(src);
+      if (src.length <= 2) {
+        $content.addClass('xl-text');
+      } else if (src.length < 8) {
+        $content.addClass('big-text');
+      }
+    }
+    $content.addClass('subject');
+    var url = document.location.href.replace(/\?.*/g,'') + "?input=" + encodeURIComponent(rot13(src));
+    $("a.url")
+      .attr('href', url)
+      .html(url);
+    video = $('video')[0];
+    //video.currentTime = 0;
+    video.play();
+    $(video).on('timeupdate', function() {
+      if (video.currentTime > 0.7) {
+        $(video).off('timeupdate');
+        $('#animation').append('<div class="subject back"></div>');
+        $('#animation').append($content);
+        var offset = $(video).offset();
+        var position = $(video).position();
+        $('.subject').css({
+          top: 140,
+          left: 212
+        });
+      }
+    });
+    $(video).one('ended', function() {
+      $(".hide")
+        .slideDown();
+      if (document.location.href !== url) {
+        //document.location.href = url
+      }
+    addthis.update('share', 'url', url);
+
+    });
+  }
+</script>
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50fb412261b6d141" async="async"></script>
+
+
+</body>
+</html>
